@@ -45,14 +45,14 @@ module Infoblox
     # &restart_option=RESTART_IF_NEEDED
     # &sequential_delay=15
     # &service_option=DHCP
-    def restartservices(*args) {
-      post_body = args.length == 1 && args[0].is_a?(Hash) ? args : {
+    def restartservices(*args)
+      post_body = args.length == 1 && args[0].is_a?(Hash) ? args[0] : {
         # support old method signature
-        :member_order       => args[0] || "SEQUENTIALLY",
-        :restart_option     => args[1] || "RESTART_IF_NEEDED",
-        :sequential_delay   => args[2] || 15,
-        :service_option     => args[3] || "DHCP"
-      }
+          :member_order       => args[0] || "SEQUENTIALLY",
+          :restart_option     => args[1] || "RESTART_IF_NEEDED",
+          :sequential_delay   => args[2] || 15,
+          :service_option     => args[3] || "DHCP"
+      } 
       JSON.parse(connection.post(resource_uri + "?_function=restartservices", post_body).body);
     end
 
